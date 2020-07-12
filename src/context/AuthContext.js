@@ -18,6 +18,19 @@ const authReducer = ( state, action ) => {
     }
 };
 
+const tryLocalSignin = dispatch => async ({ email, password }) => {
+    const token = await AsyncStorage.getItem('token');
+    if(token){
+        dispatch({
+            type: 'signin',
+            payload: response.data.token
+        });
+        navigate('TrackList');
+    }else{
+        navigate('Signin');
+    }
+}
+
 const signin = dispatch => async ({ email, password }) => {
     try{
         const response = await TrackerApi.post('/signin', { email, password });
@@ -65,6 +78,6 @@ const signout = dispatch =>  () => {
 
 export const { Provider, Context } = createDataContext(
     authReducer,
-    {signup, signin, clearErrorMessage},
+    {signup, signin, clearErrorMessage, tryLocalSignin},
     { token: '', errorMessage:'' }
 );
