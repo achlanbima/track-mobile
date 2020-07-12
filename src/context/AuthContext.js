@@ -48,6 +48,6 @@ const signout = dispatch => {
 
 export const { Provider, Context } = createDataContext(
     authReducer,
-    {signup},
+    {signup, signin},
     { token: '', errorMessage:'' }
 );
