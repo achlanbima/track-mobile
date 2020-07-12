@@ -14,7 +14,7 @@ const SigninScreen = () => {
             <ScrollView contentContainerStyle={styles.containerScroll}>
                 <View style={styles.container}>
                     <AuthForm
-                        headerText='Sign In for Tracker'
+                        headerText='Sign In to your account'
                         errorMessage={state.errorMessage}
                         onSubmit={signin}
                         submitText='Sign In'
