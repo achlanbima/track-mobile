@@ -4,40 +4,20 @@ import { Input, Text, Button } from 'react-native-elements';
 import Spacer from '../components/Spacer';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { Context as AuthContext } from '../context/AuthContext';
+import AuthForm from '../components/AuthForm';
 
 const SignupScreen = ({ navigation }) => {
     const {state, signup} = useContext(AuthContext); 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
 
     return (
         <KeyboardAvoidingView>
             <ScrollView contentContainerStyle={styles.containerScroll}>
                 <View style={styles.container}>
-                    <Spacer>
-                        <Text h3>Sign Up for Tracker</Text>
-                    </Spacer>
-                    <Input 
-                        label="Email" 
-                        value={email} 
-                        onChangeText={(value)=>setEmail(value)} 
-                        autoCapitalize={"none"}
-                        autoCorrect={false}    
+                    <AuthForm
+                        headerText='Sign Up for Tracker'
+                        errorMessage={state.errorMessage}
+                        onSubmit={signup}
                     />
-                    <Input 
-                        label="Password" 
-                        value={password} 
-                        onChangeText={(value)=>setPassword(value)} 
-                        autoCapitalize={"none"}
-                        autoCorrect={false} 
-                        secureTextEntry={true}
-                    />
-                    {
-                        state.errorMessage ? (<Text style={styles.errorMessage}>{state.errorMessage}</Text>) : null
-                    }
-                    <Spacer>
-                        <Button title="Sign Up" onPress={()=> signup({email,password})} />
-                    </Spacer>
                     <Spacer>
                         <TouchableOpacity onPress={()=>navigation.navigate('Signin')}>
                             <Text style={styles.link}>Already have an account? Sign in instead</Text>
@@ -65,11 +45,6 @@ const styles = StyleSheet.create({
     },
     containerScroll:{
         paddingVertical:100
-    },
-    errorMessage:{
-        color:'red',
-        marginTop:-15,
-        marginHorizontal:10
     },
     link:{
         color:'blue'
