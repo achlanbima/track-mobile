@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
-import { StyleSheet, Text, View, KeyboardAvoidingView } from 'react-native';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { StyleSheet, View, KeyboardAvoidingView } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import AuthForm from '../components/AuthForm';
-import Spacer from '../components/Spacer';
 import { Context as AuthContext } from '../context/AuthContext';
+import NavLink from '../components/NavLink';
 
-const SigninScreen = ({ navigation }) => {
+const SigninScreen = () => {
 
     const { state, signin } = useContext(AuthContext);
 
@@ -19,11 +19,10 @@ const SigninScreen = ({ navigation }) => {
                         onSubmit={signin}
                         submitText='Sign In'
                     />
-                    <Spacer>
-                        <TouchableOpacity onPress={()=>navigation.navigate('Signup')}>
-                            <Text style={styles.link}>Dont have an account? Sign up now</Text>
-                        </TouchableOpacity>
-                    </Spacer>
+                    <NavLink
+                        routeName={'Signup'}
+                        text='Dont have an account? Sign up now'
+                    />
                 </View>
             </ScrollView>
         </KeyboardAvoidingView>
@@ -45,9 +44,6 @@ const styles = StyleSheet.create({
     containerScroll:{
         paddingVertical:100
     },
-    link:{
-        color:'blue'
-    }
 })
 
 export default SigninScreen
