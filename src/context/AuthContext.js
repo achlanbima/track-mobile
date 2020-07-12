@@ -1,10 +1,13 @@
 import createDataContext from "./createDataContext";
 import trackerApi from "../api/tracker";
+import { AsyncStorage } from "react-native";
 
 const authReducer = ( state, action ) => {
     switch(action.type){
         case 'add_error':
             return { ...state, errorMessage:action.payload }
+        case 'signup':
+            return {...state, token:action.payload, errorMessage:''}
         default:
             return state
     }
@@ -20,6 +23,12 @@ const signup = dispatch => {
     return async ({ email, password }) => {
         try {
             const response = await trackerApi.post('/signup', { email, password });
+            AsyncStorage.setItem('token',response.data.token);
+            dispatch({
+                type: 'signup',
+                payload: response.data.token
+            });
+
             console.log(response.data);
         } catch (error) {
             dispatch({
@@ -39,5 +48,5 @@ const signout = dispatch => {
 export const { Provider, Context } = createDataContext(
     authReducer,
     {signup},
-    { isSignedIn: false, errorMessage:'' }
+    { token: '', errorMessage:'' }
 );
