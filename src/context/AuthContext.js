@@ -18,12 +18,12 @@ const authReducer = ( state, action ) => {
     }
 };
 
-const tryLocalSignin = dispatch => async ({ email, password }) => {
+const tryLocalSignin = dispatch => async () => {
     const token = await AsyncStorage.getItem('token');
     if(token){
         dispatch({
             type: 'signin',
-            payload: response.data.token
+            payload: token
         });
         navigate('TrackList');
     }else{
