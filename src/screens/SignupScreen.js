@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { StyleSheet, View, KeyboardAvoidingView} from 'react-native';
 import { Input, Text, Button } from 'react-native-elements';
 import Spacer from '../components/Spacer';
 import { ScrollView } from 'react-native-gesture-handler';
+import { Context as AuthContext } from '../context/AuthContext';
 
 const SignupScreen = ({ navigation }) => {
+    const {state, signup} = useContext(AuthContext); 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -22,7 +24,6 @@ const SignupScreen = ({ navigation }) => {
                         autoCapitalize={"none"}
                         autoCorrect={false}    
                     />
-                    <Spacer/>
                     <Input 
                         label="Password" 
                         value={password} 
@@ -31,9 +32,11 @@ const SignupScreen = ({ navigation }) => {
                         autoCorrect={false} 
                         secureTextEntry={true}
                     />
-                    <Spacer/>
+                    {
+                        state.errorMessage ? (<Text style={styles.errorMessage}>{state.errorMessage}</Text>) : null
+                    }
                     <Spacer>
-                        <Button title="Sign Up" />
+                        <Button title="Sign Up" onPress={()=> signup({email,password})} />
                     </Spacer>
                 </View>
             </ScrollView>
@@ -57,5 +60,10 @@ const styles = StyleSheet.create({
     },
     containerScroll:{
         paddingVertical:100
+    },
+    errorMessage:{
+        color:'red',
+        marginTop:-15,
+        marginHorizontal:10
     }
 })
