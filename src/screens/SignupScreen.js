@@ -4,12 +4,14 @@ import { ScrollView, } from 'react-native-gesture-handler';
 import { Context as AuthContext } from '../context/AuthContext';
 import AuthForm from '../components/AuthForm';
 import NavLink from '../components/NavLink';
+import { NavigationEvents } from 'react-navigation';
 
 const SignupScreen = () => {
-    const {state, signup} = useContext(AuthContext); 
+    const {state, signup, clearErrorMessage} = useContext(AuthContext); 
 
     return (
         <KeyboardAvoidingView>
+            <NavigationEvents onWillFocus={clearErrorMessage} />
             <ScrollView contentContainerStyle={styles.containerScroll}>
                 <View style={styles.container}>
                     <AuthForm
