@@ -1,3 +1,4 @@
+import '../_mockLocation';
 import React, { useState, useEffect } from 'react'
 import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-navigation'
