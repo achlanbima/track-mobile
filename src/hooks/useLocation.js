@@ -3,9 +3,12 @@ import { Accuracy, requestPermissionsAsync, watchHeadingAsync, watchPositionAsyn
 
 export default (shouldTrack, callback) => {
     const [err, setErr] = useState('');
-    const [subscriber, setSubscriber] = useState(null);
 
-    const startWatching = async () => {
+    useEffect(()=>{
+
+      let subscriber;
+
+      const startWatching = async () => {
         try {
           const { granted } = await requestPermissionsAsync();
           if (!granted) {
@@ -18,7 +21,7 @@ export default (shouldTrack, callback) => {
           }, 
             callback
           );
-          setSubscriber(sub);
+          subscriber = sub;
           setErr('');
         } catch (e) {
           console.log(e);
@@ -26,12 +29,13 @@ export default (shouldTrack, callback) => {
         }
       };
 
-    useEffect(()=>{
       if(shouldTrack){
         startWatching()
       }else{
-        subscriber.remove();
-        setSubscriber(null);
+        if(subscriber){
+          subscriber.remove();
+        }
+        subscriber = null;
       }
 
       return () => {
@@ -39,7 +43,7 @@ export default (shouldTrack, callback) => {
           subscriber.remove();
         }
       };
-    },[shouldTrack, callback]);
+    },[shouldTrack, callback ]);
 
     return [err];
 
